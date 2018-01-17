@@ -1,0 +1,12 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script type="application/javascript">
+// functional component props in Pure React
+// note: changing the input doesn't work!!!
+const comp = (props) => React.createElement('input', props);
+ReactDOM.render(
+    React.createElement(comp, {value: 'Hello World'}),
+    document.getElementById('root')
+);
+</script>

@@ -1,0 +1,13 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script type="application/javascript">
+// Show React.createElement returns a plain old JS object
+const e = React.createElement('h1', null, 'Hello World!');
+const s = JSON.stringify(e);
+const msg = "JSON.stringify(React.createElement('h1', null, 'Hello World!')) = " + s;
+ReactDOM.render(
+    React.createElement('h1', null, msg),
+    document.getElementById('root')
+);
+</script>

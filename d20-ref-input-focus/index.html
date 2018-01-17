@@ -1,0 +1,35 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script type="text/babel">
+// example taken from React docs
+class CustomTextInput extends React.Component {
+  focusTextInput() {
+    // Explicitly focus the text input using the raw DOM API
+    this.textInput.focus();
+  }
+
+  render() {
+    // Use the `ref` callback to store a reference to the text input DOM
+    // element in an instance field (for example, this.textInput).
+    return (
+      <div>
+        <input
+          type="text"
+          ref={(input) => { this.textInput = input; }} />
+        <input
+          type="button"
+          value="Focus the text input"
+          onClick={this.focusTextInput.bind(this)}
+        />
+      </div>
+    );
+  }
+}
+ReactDOM.render(
+    <CustomTextInput />,
+    document.getElementById('root')
+);
+</script>
+

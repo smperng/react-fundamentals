@@ -1,0 +1,73 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+<script type="text/babel">
+// taken from react docs
+class Item extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange() {
+    this.forceUpdate();
+  }
+
+  componentDidMount() {
+    this.props.model.on('change', this.handleChange);
+  }
+
+  componentWillUnmount() {
+    this.props.model.off('change', this.handleChange);
+  }
+
+  render() {
+    return <li>{this.props.model.get('text')}</li>;
+  }
+}
+
+class List extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange();
+  }
+
+  handleChange() {
+    this.forceUpdate();
+  }
+
+  componentDidMount() {
+    this.props.collection.on('add', 'remove', this.handleChange);
+  }
+
+  componentWillUnmount() {
+    this.props.collection.off('add', 'remove', this.handleChange);
+  }
+
+  render() {
+    return (
+      <ul>
+        {this.props.collection.map(model => (
+          <Item key={model.cid} model={model} />
+        ))}
+      </ul>
+    );
+  }
+}
+
+const collection = new Backbone.Collection([
+  new Backbone.Model({ text: 'A' }),
+  new Backbone.Model({ text: 'B' }),
+  new Backbone.Model({ text: 'C' })
+]);
+
+ReactDOM.render(
+  <List collection={collection} />,
+  document.getElementById('root')
+);
+</script>
+

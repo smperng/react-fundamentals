@@ -1,0 +1,15 @@
+
+  .App-sideStyle {
+    min-height: calc(100vh - 60px);
+    width: 240px;
+    background-color: #ffffff;
+  }
+
+  .App-headerStyle {
+    height: 60px;
+    background-color: #000000;
+  }
+
+  .App-contentStyle {
+    background-color: #f2f4f6;
+  }

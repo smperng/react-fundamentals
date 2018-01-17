@@ -1,0 +1,52 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js"></script>
+<script type="text/babel">
+// taken from https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce
+class Mouse extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+  }
+
+  handleMouseMove(event) {
+    this.setState({
+      x: event.clientX,
+      y: event.clientY
+    })
+  }
+
+  render() {
+    return (
+      <div style={{ height: '100%' }} onMouseMove={this.handleMouseMove}>
+        {this.props.render(this.state)}
+      </div>
+    )
+  }
+}
+Mouse.propTypes = {
+    render: PropTypes.func.isRequired
+};
+
+class App extends React.Component {
+  render() {
+    return (
+      <div style={{ height: '100%' }}>
+        <Mouse render={({ x, y }) => (
+          // The render prop gives us the state we need
+          // to render whatever we want here.
+          <h1>The mouse position is ({x}, {y})</h1>
+        )}/>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<App/>, document.getElementById('root'))
+
+</script>
+

@@ -1,0 +1,58 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js"></script>
+<script type="text/babel">
+// (contrived) example from react docs
+// import PropTypes from 'prop-types';
+
+class Button extends React.Component {
+  render() {
+    return (
+      <button style={{background: this.context.color, color: '#ffffff'}}>
+        {this.props.children}
+      </button>
+    );
+  }
+}
+
+Button.contextTypes = {
+  color: PropTypes.string
+};
+
+class Message extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.props.text} <Button>Delete</Button>
+      </div>
+    );
+  }
+}
+
+class MessageList extends React.Component {
+  getChildContext() {
+    return {color: "purple"};
+  }
+
+  render() {
+    const children = this.props.messages.map((message) =>
+      <Message text={message.text} />
+    );
+    return <div>{children}</div>;
+  }
+}
+
+MessageList.childContextTypes = {
+  color: PropTypes.string
+};
+const messages = [
+  { text: 'Hello' },
+  { text: 'Goodbye' },
+];
+ReactDOM.render(
+    <MessageList messages={messages} />,
+    document.getElementById('root')
+);
+</script>

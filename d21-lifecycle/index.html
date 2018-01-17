@@ -1,0 +1,143 @@
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script type="text/babel">
+
+const startTime = new Date().getTime();
+function log(msg, ...args) {
+  const t = new Date().getTime() - startTime;
+  const m = `${t} ${msg}`;
+  console.log.apply(console.log, [m, ...args]);
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    log(">>> constructor {", arguments);
+    this.state = {
+      hasError: false,
+      attr: null
+    };
+    this.shouldThrow = false;
+    this.headerRef = this.headerRef.bind(this);
+    setTimeout(function() {
+      log(">>> constructor }");
+    }, 0);
+    setTimeout(() => {
+      this.setState({
+        attr: "value"
+      });
+    }, 5000);
+
+    setTimeout(() => {
+      this.forceUpdate();
+    }, 10000);
+
+    setTimeout(() => {
+      this.shouldThrow = true;
+      this.setState({
+        attr: "value2"
+      });
+    }, 15000);
+  }
+  componentWillMount() {
+    log(">>> componentWillMount {", arguments);
+    setTimeout(function() {
+      log(">>> componentWillMount }");
+    }, 0);
+  }
+  componentDidMount() {
+    log(">>> componentDidMount {", arguments);
+    setTimeout(function() {
+      log(">>> componentDidMount }");
+    }, 0);
+  }
+  componentWillReceiveProps() {
+    log(">>> componentWillReceiveProps {", arguments);
+    setTimeout(function() {
+      log(">>> componentWillReceiveProps }");
+    }, 0);
+  }
+  shouldComponentUpdate() {
+    log(">>> shouldComponentUpdate {", arguments);
+    setTimeout(function() {
+      log(">>> shouldComponentUpdate }");
+    }, 0);
+    return true;
+  }
+  componentWillUpdate() {
+    log(">>> componentWillUpdate {", arguments);
+    setTimeout(function() {
+      log(">>> componentWillUpdate }");
+    }, 0);
+  }
+  componentDidUpdate() {
+    log(">>> componentDidUpdate {", arguments);
+    setTimeout(function() {
+      log(">>> componentDidUpdate }");
+    }, 0);
+  }
+  headerRef(...args) {
+    log(">>> headerRef {", args);
+    log(
+      ">>> args[0] === header?",
+      args[0] === document.querySelector("header")
+    );
+    setTimeout(function() {
+      log(">>> headerRef }");
+    }, 0);
+  };
+  setState(...args) {
+    log(">>> setState {", arguments);
+    setTimeout(function() {
+      log(">>> setState }");
+    }, 0);
+    return super.setState.apply(this, args);
+  }
+  forceUpdate(...args) {
+    log(">>> forceUpdate {", arguments);
+    setTimeout(function() {
+      log(">>> forceUpdate }");
+    }, 0);
+    return super.forceUpdate.apply(this, args);
+  }
+  componentDidCatch() {
+    log(">>> componentDidCatch {", arguments);
+    setTimeout(function() {
+      log(">>> componentDidCatch }");
+    }, 0);
+    this.setState({
+      hasError: true
+    });
+  }
+  render() {
+    log(">>> render {", arguments);
+    setTimeout(function() {
+      log(">>> render }");
+    }, 0);
+    if (this.state.hasError) {
+      return <div>Caught Error</div>;
+    }
+    const e = (
+      <div className="App">
+        <header className="App-header" ref={this.headerRef}>
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+        <p>
+         Open browser dev console to see when React component lifecycle methods get called
+        </p>
+        {this.props.children}
+      </div>
+    );
+    log(">>> render - create element done");
+    return e;
+  }
+}
+
+ReactDOM.render(
+    <App/>,
+    document.getElementById('root')
+);
+</script>
+
